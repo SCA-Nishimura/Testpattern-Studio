@@ -1,0 +1,22 @@
+{
+  "name": "testpattern-studio",
+  "productName": "TestPattern Studio",
+  "version": "0.1.0",
+  "description": "Test pattern & test tone generator for display / projector alignment",
+  "main": "src/main/main.js",
+  "author": "SC-A",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "icon": "node tools/make-icon.js",
+    "gallery": "node tools/serve-gallery.js",
+    "dist": "electron-builder --win",
+    "dist:dir": "electron-builder --win --dir"
+  },
+  "devDependencies": {
+    "electron": "^44.7.0",
+    "electron-builder": "^26.15.3"
+  }
+}

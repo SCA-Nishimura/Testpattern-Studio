@@ -1,0 +1,17 @@
+# dependencies
+node_modules/
+
+# build output
+dist/
+out/
+win-unpacked/
+
+# generated (npm run icon で再生成できる)
+build/icon.ico
+
+# logs / editor
+*.log
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/

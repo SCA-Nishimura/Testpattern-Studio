@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:" />
+  <title>TestPattern Studio</title>
+  <link rel="stylesheet" href="control.css" />
+</head>
+<body>
+  <header class="topbar">
+    <div class="brand">
+      <span class="brand-mark"></span>
+      <span class="brand-name">TestPattern Studio</span>
+    </div>
+
+    <div class="topbar-group">
+      <label class="tlabel" for="resPreset">解像度</label>
+      <select id="resPreset" class="ctl ctl-wide"></select>
+      <input id="resW" class="ctl ctl-num" type="number" min="64" max="16384" step="1" aria-label="幅" />
+      <span class="x">x</span>
+      <input id="resH" class="ctl ctl-num" type="number" min="64" max="16384" step="1" aria-label="高さ" />
+      <button id="resFromDisplay" class="btn btn-ghost" title="選択中の出力ディスプレイの実解像度を取り込む">画面から取得</button>
+      <span id="resInfo" class="muted"></span>
+    </div>
+
+    <div class="topbar-group right">
+      <label class="tlabel" for="displaySel">出力先</label>
+      <select id="displaySel" class="ctl ctl-wide"></select>
+      <label class="tlabel" for="scalingSel">スケーリング</label>
+      <select id="scalingSel" class="ctl"></select>
+      <button id="outputBtn" class="btn btn-primary">出力開始 (F5)</button>
+      <button id="exportBtn" class="btn btn-ghost" title="論理解像度そのままの PNG を保存">PNG 保存</button>
+    </div>
+  </header>
+
+  <main class="layout">
+    <nav class="pane pane-left">
+      <div class="pane-title">パターン</div>
+      <div id="patternList" class="pattern-list"></div>
+    </nav>
+
+    <section class="pane pane-center">
+      <div class="preview-head">
+        <span id="previewName" class="preview-name"></span>
+        <span id="previewHint" class="preview-hint"></span>
+      </div>
+      <div class="preview-wrap">
+        <canvas id="preview"></canvas>
+      </div>
+      <div class="preview-foot">
+        <span id="previewMeta" class="muted"></span>
+        <span class="spacer"></span>
+        <label class="inline"><input type="checkbox" id="previewFullRes" /> プレビューも論理解像度どおりに等倍表示</label>
+      </div>
+    </section>
+
+    <aside class="pane pane-right">
+      <div class="tabs">
+        <button class="tab is-active" data-tab="params">パラメータ</button>
+        <button class="tab" data-tab="overlay">オーバーレイ</button>
+        <button class="tab" data-tab="audio">音声</button>
+      </div>
+
+      <div class="tabpanes">
+        <div class="tabpane is-active" data-pane="params">
+          <div id="paramForm" class="form"></div>
+          <button id="resetParams" class="btn btn-ghost full">このパターンの設定を初期値に戻す</button>
+        </div>
+
+        <div class="tabpane" data-pane="overlay">
+          <div id="overlayForm" class="form"></div>
+        </div>
+
+        <div class="tabpane" data-pane="audio">
+          <div id="audioForm" class="form"></div>
+          <div class="audio-actions">
+            <button id="toneBtn" class="btn btn-primary full">テストトーン再生</button>
+            <div id="audioStatus" class="muted small"></div>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </main>
+
+  <script src="../../shared/core.js"></script>
+  <script src="../../shared/resolutions.js"></script>
+  <script src="../../shared/overlay.js"></script>
+  <script src="../../shared/render.js"></script>
+  <script src="../../shared/patterns/projector.js"></script>
+  <script src="../../shared/patterns/video.js"></script>
+  <script src="../../shared/patterns/dynamic.js"></script>
+  <script src="../../shared/patterns/focus-advanced.js"></script>
+  <script src="../../shared/audio/tone.js"></script>
+  <script src="control.js"></script>
+</body>
+</html>

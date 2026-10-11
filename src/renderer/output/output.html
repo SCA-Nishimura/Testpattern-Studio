@@ -1,0 +1,36 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; script-src 'self'; style-src 'self' 'unsafe-inline'; img-src 'self' data:" />
+  <title>TestPattern Output</title>
+  <style>
+    html, body {
+      margin: 0; padding: 0; width: 100%; height: 100%;
+      background: #000; overflow: hidden; cursor: none;
+    }
+    #stage { display: block; width: 100vw; height: 100vh; }
+    #hint {
+      position: fixed; left: 50%; bottom: 24px; transform: translateX(-50%);
+      font: 600 14px "Segoe UI", "Yu Gothic UI", sans-serif;
+      color: #fff; background: rgba(0,0,0,.72); padding: 8px 16px; border-radius: 6px;
+      pointer-events: none; transition: opacity .4s; opacity: 1;
+    }
+    #hint.hide { opacity: 0; }
+  </style>
+</head>
+<body>
+  <canvas id="stage"></canvas>
+  <div id="hint">Esc で出力ウィンドウを閉じる</div>
+
+  <script src="../../shared/core.js"></script>
+  <script src="../../shared/resolutions.js"></script>
+  <script src="../../shared/overlay.js"></script>
+  <script src="../../shared/render.js"></script>
+  <script src="../../shared/patterns/projector.js"></script>
+  <script src="../../shared/patterns/video.js"></script>
+  <script src="../../shared/patterns/dynamic.js"></script>
+  <script src="../../shared/patterns/focus-advanced.js"></script>
+  <script src="output.js"></script>
+</body>
+</html>

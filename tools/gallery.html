@@ -1,0 +1,72 @@
+<!doctype html>
+<html lang="ja">
+<head>
+<meta charset="utf-8">
+<title>Pattern gallery (dev check)</title>
+<style>
+  body { background:#111; color:#eee; font:13px system-ui; margin:16px; }
+  .grid { display:grid; grid-template-columns:repeat(3, 1fr); gap:14px; }
+  .cell { background:#000; border:1px solid #333; }
+  .cell h3 { margin:0; padding:4px 6px; font-size:12px; background:#1c1c1c; color:#8cf; }
+  canvas { display:block; width:100%; height:auto; }
+  #log { white-space:pre-wrap; color:#f88; font:12px monospace; }
+</style>
+</head>
+<body>
+<div id="log"></div>
+<div class="grid" id="grid"></div>
+
+<script src="../src/shared/core.js"></script>
+<script src="../src/shared/resolutions.js"></script>
+<script src="../src/shared/overlay.js"></script>
+<script src="../src/shared/render.js"></script>
+<script src="../src/shared/patterns/projector.js"></script>
+<script src="../src/shared/patterns/video.js"></script>
+<script src="../src/shared/patterns/dynamic.js"></script>
+<script src="../src/shared/patterns/focus-advanced.js"></script>
+<script src="../src/shared/audio/tone.js"></script>
+<script>
+const W = 1280, H = 720;
+const log = document.getElementById('log');
+const grid = document.getElementById('grid');
+const errors = [];
+
+for (const def of TP.patterns) {
+  const cell = document.createElement('div');
+  cell.className = 'cell';
+  const h3 = document.createElement('h3');
+  h3.textContent = def.category + ' / ' + def.id + ' — ' + def.name;
+  cell.appendChild(h3);
+
+  const off = document.createElement('canvas');
+  off.width = W; off.height = H;
+  const ctx = off.getContext('2d');
+  try {
+    def.draw(ctx, { w: W, h: H, p: TP.defaultParams(def), frame: 7, time: 0.7, fps: 60 });
+    TP.drawOverlay(ctx, { w: W, h: H, fps: 60, overlay: Object.assign({}, TP.OVERLAY_DEFAULTS, { text: 'PJ-01', safe90: true }) });
+  } catch (e) {
+    errors.push(def.id + ': ' + e.message + '\n' + e.stack);
+  }
+  const vis = document.createElement('canvas');
+  vis.width = 640; vis.height = 360;
+  vis.getContext('2d').drawImage(off, 0, 0, 640, 360);
+  cell.appendChild(vis);
+  grid.appendChild(cell);
+}
+
+// 任意解像度での例外チェック
+const odd = [[64,64],[320,1200],[2048,858],[3840,2160],[1234,567]];
+for (const def of TP.patterns) {
+  for (const [w,h] of odd) {
+    const c = document.createElement('canvas'); c.width=w; c.height=h;
+    try {
+      def.draw(c.getContext('2d'), { w, h, p: TP.defaultParams(def), frame: 3, time: 0.3, fps: 60 });
+      TP.drawOverlay(c.getContext('2d'), { w, h, fps:60, overlay: Object.assign({}, TP.OVERLAY_DEFAULTS, {text:'X', safe80:true, aspectGuide:'2.39', centerCross:true, thirds:true}) });
+    } catch (e) { errors.push(def.id + ' @' + w + 'x' + h + ': ' + e.message); }
+  }
+}
+
+log.textContent = errors.length ? 'ERRORS:\n' + errors.join('\n') : 'no errors — ' + TP.patterns.length + ' patterns, odd-resolution sweep passed';
+</script>
+</body>
+</html>
